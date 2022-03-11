@@ -17,7 +17,7 @@ function App() {
   const submittedFalse =() => setIsSubmitted(false);
   const submittedTrue = () => setIsSubmitted(true);
 
-  console.log("app",isSubmitted);
+  // console.log("app",isSubmitted);
 
   return (
     <Router>

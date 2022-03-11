@@ -336,7 +336,7 @@ function BillPage() {
                 return res.json();
             })
             .then(data => {
-                console.log(data);
+                // console.log(data);
                 if(data.statusCode === 201){
                     setBills(prevState =>{
 
