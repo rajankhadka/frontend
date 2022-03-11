@@ -1,24 +1,54 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import { Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import { Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import Layout from "./components/ui/Layout/Layout";
+import CategoryPage from "./pages/CategoryPage/CategoryPage";
+import HomePage from "./pages/HomePage/HomePage";
+import LoginPage from "./pages/LoginPage/LoginPage";
+import PageNotFound from "./pages/PageNotFound/PageNotFound";
 
 function App() {
+  // const history = useHistory();
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  //submitted false
+  const submittedFalse =() => setIsSubmitted(false);
+  const submittedTrue = () => setIsSubmitted(true);
+
+  console.log("app",isSubmitted);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Switch>
+        <Route path="/login" render={(props) => <LoginPage 
+            {...props} 
+            submittedFalse={submittedFalse}
+            submittedTrue={submittedTrue}
+            isSubmitted={isSubmitted}
+            />} 
+          />
+        {
+          localStorage.getItem('authenticated') || isSubmitted
+          ?
+            <>
+              <Route path="/" render={(props) => <Layout 
+            {...props} 
+            submittedFalse={submittedFalse}
+            submittedTrue={submittedTrue}
+            isSubmitted={isSubmitted}
+            />}  />
+
+            </>
+          :
+            
+            <Redirect to={'/login'} />
+            
+        }
+        <Route component={PageNotFound}/>
+      </Switch>
+    </Router>
   );
 }
 
